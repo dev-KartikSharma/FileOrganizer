@@ -1,25 +1,29 @@
 from main import scan_directory, move_files
 import streamlit as st
-import threading, time
+import threading
 
-# Title
-st.title("File organizer 🧹")
+# UI
+st.title("File Organizer 🧹")
 st.caption("Built by Kartik ✨ | Powered by Python threads and Streamlit simplicity.")
 
-path = st.text_input("📁 Enter the path to your Downloads folder: ", "C:\\Users\\HP\\Downloads")
+path = st.text_input("📁 Enter the path to your Downloads folder:", "C:\\Users\\HP\\Downloads")
 
 if st.button("Organize"):
-        
-    # using threads
-    scan_thread = threading.Thread(target=scan_directory, args=(path,))
-    move_thread = threading.Thread(target=move_files, args=(path,))
+    file_list = scan_directory(path)
 
-    scan_thread.start()
-    st.success(f"🔍 Found files")
-    st.text("Starting file classification...")
-    time.sleep(3)
-    move_thread.start()
-    st.success("✅ File organization completed!")
+    if file_list is None:
+        st.error("❌ Directory not found. Please check the path and try again.")
+        st.stop()
+    elif not file_list:
+        st.warning("⚠️ No files found in the specified directory.")
+        st.stop()
+    else:
+        st.success(f"✅ Found {len(file_list)} files to organize.")
+        st.text("Starting file classification...")
 
-    scan_thread.join()
-    move_thread.join()
+        # Launching only move thread
+        move_thread = threading.Thread(target=move_files, args=(path,))
+        move_thread.start()
+        move_thread.join()
+
+        st.success("🎯 File organization completed!")

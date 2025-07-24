@@ -18,16 +18,17 @@ q = Queue()
 # scans the directory and puts only files in the queue and any folders are ignored
 def scan_directory(path):
     try:
+        files = []
         for f in os.listdir(path):
             if os.path.isfile(os.path.join(path, f)):
                 q.put(f)
-        print(f"\t---- Scanned the directory ----\n")
-        print(f"Files in {path}: {list(q.queue)}")
-        # print(type(q))
-        print("\nStarting to move files based on extensions...")
+                files.append(f)
+        print(f"\nScanned directory: {path}")
+        print(f"Files: {files}")
+        return files  # ✅ returning list here
     except FileNotFoundError:
-        print("Error: Directory not found.")
-        print(f"(Directory {path} not found.)")
+        print(f"Error: Directory not found → {path}")
+        return None
 
 
 # moves files from the queue to their respective folder based on their extensions, if no match is found, it moves to the 'Others' folder

@@ -4,7 +4,7 @@ import threading, time
 
 # Title
 st.title("File organizer 🧹")
-# st.title("")
+st.caption("Built by Kartik ✨ | Powered by Python threads and Streamlit simplicity.")
 
 path = st.text_input("📁 Enter the path to your Downloads folder: ", "C:\\Users\\HP\\Downloads")
 

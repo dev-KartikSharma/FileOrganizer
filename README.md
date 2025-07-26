@@ -14,3 +14,6 @@ pip install -r requirements.txt
 
 # Run the app
 streamlit run frontend.py
+
+# Also Deployed on Streamlit
+https://filegorganizerbykartik.streamlit.app/
